@@ -32,10 +32,6 @@ module.exports = function(socket){
 	socket.on(USER_CONNECTED, (user)=>{
 		connectedUsers = addUser(connectedUsers, user)
 		socket.user = user
-
-		sendMessageToChatFromUser = sendMessageToChat(user.name)
-		sendTypingFromUser = sendTypingToChat(user.name)
-
 		io.emit(USER_CONNECTED, connectedUsers)
 		console.log(connectedUsers);
 
@@ -60,43 +56,8 @@ module.exports = function(socket){
 
 	})
 
-	//Get Community Chat
-	socket.on(COMMUNITY_CHAT, (callback)=>{
-		callback(communityChat)
-	})
-
-	socket.on(MESSAGE_SENT, ({chatId, message})=>{
-		sendMessageToChatFromUser(chatId, message)
-	})
-
-	socket.on(TYPING, ({chatId, isTyping})=>{
-		sendTypingFromUser(chatId, isTyping)
-	})
-
-}
-/*
-* Returns a function that will take a chat id and a boolean isTyping
-* and then emit a broadcast to the chat id that the sender is typing
-* @param sender {string} username of sender
-* @return function(chatId, message)
-*/
-function sendTypingToChat(user){
-	return (chatId, isTyping)=>{
-		io.emit(`${TYPING}-${chatId}`, {user, isTyping})
-	}
 }
 
-/*
-* Returns a function that will take a chat id and message
-* and then emit a broadcast to the chat id.
-* @param sender {string} username of sender
-* @return function(chatId, message)
-*/
-function sendMessageToChat(sender){
-	return (chatId, message)=>{
-		io.emit(`${MESSAGE_RECIEVED}-${chatId}`, createMessage({message, sender}))
-	}
-}
 
 /*
 * Adds user to list passed in.
