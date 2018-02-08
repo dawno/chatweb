@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { VERIFY_USER } from '../Events'
-
+// login form for entry 
 export default class LoginForm extends Component {
 	constructor(props) {
 	  super(props);
@@ -9,7 +9,8 @@ export default class LoginForm extends Component {
 	  	nickname:"",
 	  	error:""
 	  };
-	}
+    }
+    
     setUser = ({user, isUser})=>{
 
 		if(isUser){
@@ -42,8 +43,8 @@ export default class LoginForm extends Component {
 
 					<label htmlFor="nickname">
 						<h2>Got a nickname?</h2>
-					</label>
-					<input
+					</label> 
+					<input 
 						ref={(input)=>{ this.textInput = input }} 
 						type="text"
 						id="nickname"
